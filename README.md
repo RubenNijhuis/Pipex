@@ -4,10 +4,10 @@
 TODO
 
 FEATURES
-[ ] - Create split for commands
-[ ] - Create split for path
-[ ] - Create run command function
+- [ ] - Create split for commands
+- [ ] - Create split for path
+- [ ] - Create run command function
 
 API
-[ ] - Setup pipex.h file
-[ ] - Setup multiple pipes using more child processes
+- [ ] - Setup pipex.h file
+- [ ] - Setup multiple pipes using more child processes
