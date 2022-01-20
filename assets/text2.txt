@@ -1,1 +1,9 @@
-       0       0       0
+total 24
+-rw-r--r--  1 rubennijhuis  staff  1062  5 Jan 16:55 LICENSE
+drwxr-xr-x  6 rubennijhuis  staff   192 20 Jan 18:54 LibFT
+-rw-r--r--  1 rubennijhuis  staff  1646 20 Jan 22:57 Makefile
+-rw-r--r--  1 rubennijhuis  staff   271 20 Jan 18:54 README.md
+drwxr-xr-x  4 rubennijhuis  staff   128 20 Jan 18:54 assets
+drwxr-xr-x  4 rubennijhuis  staff   128 20 Jan 23:08 bin
+drwxr-xr-x  5 rubennijhuis  staff   160 20 Jan 18:54 includes
+drwxr-xr-x  4 rubennijhuis  staff   128 20 Jan 22:57 src

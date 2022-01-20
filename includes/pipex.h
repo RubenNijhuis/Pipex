@@ -6,7 +6,7 @@
 /*   By: rnijhuis <rnijhuis@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 16:57:28 by rnijhuis      #+#    #+#                 */
-/*   Updated: 2022/01/20 16:25:24 by rnijhuis      ########   odam.nl         */
+/*   Updated: 2022/01/20 20:35:03 by rubennijhui   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PIPEX_H
 
 # include <libft.h>
-// void	pipex(int input_fd, int output_fd, char **cmd, char **env)
-char	**ft_split(char const *s, char c);
+
+char *get_path_to_binary(char **cmd, char **env);
 
 #endif

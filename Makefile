@@ -6,7 +6,7 @@
 #    By: rnijhuis <rnijhuis@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/11/29 10:35:30 by rnijhuis      #+#    #+#                  #
-#    Updated: 2022/01/20 16:27:07 by rnijhuis      ########   odam.nl          #
+#    Updated: 2022/01/20 22:57:47 by rubennijhui   ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,15 +15,14 @@ INCLUDE_DIR := includes
 SRC_DIR := src
 BIN_DIR := ./bin/
 
-SRCS := src/main.c
+SRCS := src/main.c \
+		src/get_path_to_binary.c
 
 INCLUDES := ./includes/libft.a
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 COMPILE = $(CC) $(CFLAGS)
-
-TES_DATA = test1.txt cat cat test2.txt
 
 $(NAME): $(OBJS) ./includes/pipex.h
 	@$(COMPILE) $(SRCS) $(INCLUDES) -I $(INCLUDE_DIR) -o $(BIN_DIR)$(NAME)
@@ -35,7 +34,7 @@ libft:
 	@echo "📦 Moving libft to 'include'"
 
 run:
-	./bin/$(NAME) assets/text1.txt "ls -l" "wc -l" assets/text2.txt
+	./bin/$(NAME) assets/text1.txt "ls -l" "ls -l" assets/text2.txt
 
 all: libft run
 

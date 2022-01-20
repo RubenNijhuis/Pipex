@@ -6,7 +6,7 @@
 /*   By: rnijhuis <rnijhuis@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 10:09:05 by rnijhuis      #+#    #+#                 */
-/*   Updated: 2022/01/20 17:03:33 by rnijhuis      ########   odam.nl         */
+/*   Updated: 2022/01/20 20:10:19 by rubennijhui   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,46 +16,34 @@
 #include <unistd.h>
 #include <pipex.h>
 
-// void	run_command(char **command, char **env)
-// {
-// 	// int		exec_status;
-// 	// int		amount_paths = 3;
-// 	// int		amount_tries = 0;
-// 	// char	**path_split;
-// 	// char	**command_args;
+void	run_command(char *cmd, char **env)
+{
+	char	**cmd_split;
+	char	*path_to_binary;
 
-// 	// path_split = path_splitter(path);
-// 	// command_split = command_split(argv);
-// 	// while (amount_tries < amount_paths)
-// 	// {
-// 	(void)command;
-// 	char *cmd = {"ls -l"};
-// 	execve("/usr/bin", &cmd, env);
-// }
+	cmd_split = ft_split(cmd, 32);
+	path_to_binary = get_path_to_binary(cmd_split, env);
+	execve(path_to_binary, cmd_split, env);
+}
 
 void	child_process(int fd, int *end, char *cmd, char **env)
 {
-	char	**cmd_split;
-
 	dup2(fd, STDIN_FILENO);
 	dup2(end[1], STDOUT_FILENO);
 	close(end[0]);
-	cmd_split = ft_split(cmd, 32);
-	execve("/bin/ls", cmd_split, env);
+	run_command(cmd, env);
 }
 
 void	parent_process(int fd, int *end, char *cmd, char **env)
 {
-	int		status;
-	char	**cmd_split;
+	int	status;
 
 	waitpid(-1, &status, 0);
 	dup2(fd, STDOUT_FILENO);
 	dup2(end[0], STDIN_FILENO);
 	close(end[1]);
 	close(fd);
-	cmd_split = ft_split(cmd, 32);
-	execve("/usr/bin/wc", cmd_split, env);
+	run_command(cmd, env);
 }
 
 void	pipex(int input_fd, int output_fd, char **cmd, char **env)
@@ -63,7 +51,6 @@ void	pipex(int input_fd, int output_fd, char **cmd, char **env)
 	int		end[2];
 	pid_t	parent;
 
-	(void)cmd;
 	parent = fork();
 	pipe(end);
 	if (parent < 0)
@@ -83,7 +70,7 @@ int	main(int argc, char **argv, char **env)
 	output_fd = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (input_fd < 0 || output_fd < 0 || argc != 5)
 	{
-		printf("is fout 1");
+		perror("File: ");
 		return (1);
 	}
 	pipex(input_fd, output_fd, argv, env);
