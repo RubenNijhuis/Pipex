@@ -6,7 +6,7 @@
 /*   By: rubennijhuis <rubennijhuis@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/20 19:33:38 by rubennijhui   #+#    #+#                 */
-/*   Updated: 2022/01/24 19:05:23 by rubennijhui   ########   odam.nl         */
+/*   Updated: 2022/01/24 19:30:51 by rubennijhui   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,7 @@ void get_path_to_binary(char **cmd, char **env)
     {
         working_cmd = ft_strjoin(global_path_split[i], ft_strjoin("/", cmd[0]));
         if (access(working_cmd, F_OK & X_OK) == 0)
-        {
-            int cmdlen0 = ft_strlen(cmd[1]);
-            write(2, cmd[1], cmdlen0);
             execve(working_cmd, cmd, env);
-        }
         free(working_cmd);
         i++;
     }
