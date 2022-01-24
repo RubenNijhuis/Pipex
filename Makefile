@@ -34,7 +34,7 @@ libft:
 	echo "📦 Moving libft to $(INCLUDE_DIR)"
 
 run:
-	./$(NAME) assets/text1.txt "ls -l" "ls -l" assets/text2.txt
+	./bin/$(NAME) assets/text1.txt "cat -e" "grep oke" assets/text2.txt
 
 all: libft $(NAME)
 
