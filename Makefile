@@ -3,49 +3,81 @@
 #                                                         ::::::::             #
 #    Makefile                                           :+:    :+:             #
 #                                                      +:+                     #
-#    By: rnijhuis <rnijhuis@studentcodam.nl>         +#+                      #
+#    By: rnijhuis <rnijhuis@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
-#    Created: 2021/11/29 10:35:30 by rnijhuis      #+#    #+#                  #
-#    Updated: 2022/01/24 14:54:17 by rnijhuis      ########   odam.nl          #
+#    Created: 2022/03/12 11:05:57 by rnijhuis      #+#    #+#                  #
+#    Updated: 2022/03/13 19:00:17 by rubennijhui   ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
+#=====================================#
+#========= General variables =========#
+#=====================================#
+
 NAME := pipex
-INCLUDE_DIR := includes
+INCLUDE_DIR := include
 SRC_DIR := src
-BIN_DIR := ./bin
+LIBS_DIR := libs
+OBJS_DIR := objs
 
-SRCS := src/main.c \
-		src/get_path_to_binary.c
+#=====================================#
+#============ Input files ============#
+#=====================================#
 
-INCLUDES := $(INCLUDE_DIR)libft.a\
+LIBS := $(LIBS_DIR)/LibFT/libft.a \
+
+LIBS_HEADERS := -I $(LIBS_DIR)/LibFT/include/ \
+
+INC := -I $(INCLUDE_DIR) $(LIBS_HEADERS)
+
+SRCS := main.c \
+		processes.c \
+		utils/get_path_to_binary.c \
+		utils/ft_split.c
+
+OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.c=.o))
+
+#=====================================#
+#========= Command arguments =========#
+#=====================================#
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-COMPILE = $(CC) $(CFLAGS)
+CFLAGS = -Wall -Werror -Wextra -g $(INC)
+LDFLAGS =
 
-$(NAME):$(OBJS) ./includes/pipex.h
-	$(COMPILE) $(SRCS) -L ./includes/ -lft -o $(NAME)
+#=====================================#
+#=============== Rules ===============#
+#=====================================#
 
-libft:
-	make -C ./LibFT/src
-	mv ./LibFT/src/libft.a $(INCLUDE_DIR)
-	cp ./LibFT/src/libft.h $(INCLUDE_DIR)
-	echo "📦 Moving libft to $(INCLUDE_DIR)"
+objs/%.o:src/%.c
+	@mkdir -p $(dir $@)
+	@$(CC) -c $(CFLAGS) -o $@ $^
+	@echo "🔨 Compiling: $^"
+	
+all: $(NAME)
 
 run:
-	./bin/$(NAME) assets/text1.txt "cat -e" "grep oke" assets/text2.txt
+	./$(NAME) assets/text1.txt "ls -l" "wc" assets/text2.txt
 
-all: libft $(NAME)
+$(NAME):$(OBJS) $(LIBS)
+	@$(CC) $(OBJS) $(LDFLAGS) $(LIBS) -o $(NAME)
+	@echo "✅ Built $(NAME)"
+
+$(LIBS_DIR)/LibFT/libft.a:
+	@make -C $(LIBS_DIR)/LibFT
+
+submodules:
+	@git submodule update --init --recursive
+	@cd $(LIBS_DIR)/LibFt/ && git pull
 
 clean:
-	rm -rf $(OBJS)
-	echo "🧹 Removing object files"
+	@make clean -C $(LIBS_DIR)/LibFT
+	@rm -rf $(OBJS_DIR)
 
 fclean: clean
-	rm -rf ./bin/$(NAME)
-	echo "🧹 Removing $(NAME) executable"
+	@make fclean -C $(LIBS_DIR)/LibFT
+	@rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: run all clean fclean re libft
+.PHONY: all re run clean fclean

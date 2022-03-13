@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_isalpha.c                                       :+:    :+:            */
+/*   pipex.h                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rnijhuis <rnijhuis@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/11/09 09:43:46 by rnijhuis      #+#    #+#                 */
-/*   Updated: 2021/11/09 09:43:47 by rnijhuis      ########   odam.nl         */
+/*   Created: 2022/01/17 16:57:28 by rnijhuis      #+#    #+#                 */
+/*   Updated: 2022/03/05 10:43:33 by rubennijhui   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isalpha(int c)
-{
-	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
-}
+#ifndef PIPEX_H
+# define PIPEX_H
+
+void	get_path_to_binary(char **cmd, char **env);
+
+#endif
